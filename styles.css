@@ -888,6 +888,31 @@ td {
   background: rgba(255, 255, 255, 0.78);
 }
 
+.cloud-status {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff8e6;
+  color: #7b5a11;
+  font-weight: 850;
+}
+
+.cloud-status.online {
+  background: #eef8f2;
+  color: #0b6d55;
+}
+
+.cloud-status span,
+.cloud-status small {
+  color: inherit;
+  font-size: 0.88rem;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
 .simple-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);

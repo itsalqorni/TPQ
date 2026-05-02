@@ -4,10 +4,15 @@ const Cloud = (() => {
   const config = window.TPQ_FIREBASE_CONFIG || {};
   const isConfigured = Boolean(config.apiKey && config.projectId && window.firebase);
   let db = null;
+  let lastError = "";
 
   if (isConfigured) {
-    firebase.initializeApp(config);
-    db = firebase.firestore();
+    try {
+      firebase.initializeApp(config);
+      db = firebase.firestore();
+    } catch (error) {
+      lastError = error.message || "Firebase gagal dimuat.";
+    }
   }
 
   function readLocal(key, fallback) {
@@ -23,6 +28,17 @@ const Cloud = (() => {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
+  async function uploadRows(collectionName, rows) {
+    if (!db || !rows.length) return;
+
+    const batch = db.batch();
+    rows.forEach((row) => {
+      const ref = db.collection(collectionName).doc(row.id || `${collectionName}-${Date.now()}-${Math.random()}`);
+      batch.set(ref, row, { merge: true });
+    });
+    await batch.commit();
+  }
+
   async function loadCollection(collectionName, localKey, fallback = []) {
     if (!db) return readLocal(localKey, fallback);
 
@@ -30,8 +46,13 @@ const Cloud = (() => {
       const snapshot = await db.collection(collectionName).get();
       const rows = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       if (rows.length) writeLocal(localKey, rows);
-      return rows.length ? rows : readLocal(localKey, fallback);
-    } catch {
+      if (rows.length) return rows;
+
+      const localRows = readLocal(localKey, fallback);
+      await uploadRows(collectionName, localRows);
+      return localRows;
+    } catch (error) {
+      lastError = error.message || "Gagal membaca Firestore.";
       return readLocal(localKey, fallback);
     }
   }
@@ -41,13 +62,9 @@ const Cloud = (() => {
     if (!db) return;
 
     try {
-      const batch = db.batch();
-      rows.forEach((row) => {
-        const ref = db.collection(collectionName).doc(row.id || `${collectionName}-${Date.now()}-${Math.random()}`);
-        batch.set(ref, row, { merge: true });
-      });
-      await batch.commit();
-    } catch {
+      await uploadRows(collectionName, rows);
+    } catch (error) {
+      lastError = error.message || "Gagal menyimpan ke Firestore.";
       // Local data is already saved above; Firestore can be configured later.
     }
   }
@@ -61,10 +78,24 @@ const Cloud = (() => {
         writeLocal(localKey, rows);
         callback(rows);
       },
-      () => {
+      (error) => {
+        lastError = error.message || "Realtime Firestore terputus.";
         callback(readLocal(localKey, []));
       }
     );
+  }
+
+  function getStatus() {
+    return {
+      isOnline: Boolean(db),
+      isConfigured,
+      lastError,
+      message: db
+        ? "Database online aktif"
+        : isConfigured
+          ? "Firebase sudah diisi, tapi koneksi Firestore gagal"
+          : "Database online belum dikonfigurasi"
+    };
   }
 
   async function loadUsers(fallback) {
@@ -96,6 +127,7 @@ const Cloud = (() => {
 
   return {
     isOnline: Boolean(db),
+    getStatus,
     loadUsers,
     saveUsers,
     loadDeposits,

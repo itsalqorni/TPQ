@@ -5,6 +5,7 @@ const accountSearch = document.querySelector("#accountSearch");
 const statUsers = document.querySelector("#statUsers");
 const statStudents = document.querySelector("#statStudents");
 const statParents = document.querySelector("#statParents");
+const cloudStatus = document.querySelector("#cloudStatus");
 
 function getInitials(name) {
   return name
@@ -42,8 +43,19 @@ async function renderAccounts() {
     : `<article class="account-empty">Akun tidak ditemukan.</article>`;
 }
 
+function renderCloudStatus() {
+  const status = Cloud.getStatus();
+  cloudStatus.className = `cloud-status ${status.isOnline ? "online" : "offline"}`;
+  cloudStatus.innerHTML = `
+    <strong>${status.message}</strong>
+    <span>${status.isOnline ? "Data akan sinkron antar device yang membuka URL Netlify yang sama." : "Isi Firebase config dan deploy lewat Netlify supaya HP/laptop memakai database yang sama."}</span>
+    ${status.lastError ? `<small>${status.lastError}</small>` : ""}
+  `;
+}
+
 logoutBtn.addEventListener("click", Auth.logout);
 accountSearch.addEventListener("input", renderAccounts);
 
+renderCloudStatus();
 renderAccounts();
 Cloud.watchUsers(renderAccounts);
