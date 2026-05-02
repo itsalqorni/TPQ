@@ -43,6 +43,7 @@ FIREBASE_PROJECT_ID
 FIREBASE_STORAGE_BUCKET
 FIREBASE_MESSAGING_SENDER_ID
 FIREBASE_APP_ID
+FIREBASE_MEASUREMENT_ID
 ```
 
 Setelah deploy, semua device yang membuka URL Netlify yang sama akan membaca data dari Firestore yang sama.
