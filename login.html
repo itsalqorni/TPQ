@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login TPQ</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="auth-page">
+      <section class="auth-card">
+        <div class="brand auth-brand">
+          <span class="brand-mark">TPQ</span>
+          <div>
+            <strong>Login Hafalan Tracker</strong>
+            <small>Masuk sesuai akun yang diberikan admin</small>
+          </div>
+        </div>
+
+        <form id="loginForm" class="auth-form">
+          <label>
+            Username
+            <input name="username" autocomplete="username" placeholder="Masukkan username" required />
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" autocomplete="current-password" placeholder="Masukkan password" required />
+          </label>
+          <p class="form-message" id="loginMessage"></p>
+          <button class="primary-btn" type="submit">Login</button>
+        </form>
+      </section>
+    </main>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./cloud.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./login.js"></script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Akun - Admin TPQ</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="simple-shell">
+      <header class="simple-topbar">
+        <div class="brand">
+          <span class="brand-mark">R</span>
+          <div>
+            <strong>Register Akun</strong>
+            <small>Hanya admin yang bisa menambah akun</small>
+          </div>
+        </div>
+        <nav class="admin-nav" aria-label="Akses halaman">
+          <a href="./index.html">Admin</a>
+          <a href="./ustadz.html">Ustadz/Ustadzah</a>
+          <a class="active" href="./register.html">Register</a>
+          <button class="nav-button" id="logoutBtn" type="button">Logout</button>
+        </nav>
+      </header>
+
+      <section class="panel register-panel">
+        <div class="panel-header compact">
+          <div>
+            <p class="eyebrow">Akun baru</p>
+            <h1>Tambah User</h1>
+          </div>
+        </div>
+        <form id="registerForm">
+          <label>
+            Nama Lengkap
+            <input name="name" placeholder="Nama pemilik akun" required />
+          </label>
+          <label>
+            Username
+            <input name="username" autocomplete="username" placeholder="username unik" required />
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" autocomplete="new-password" placeholder="password akun" required />
+          </label>
+          <label>
+            Role
+            <select name="role" id="roleInput" required>
+              <option value="santri">Santri</option>
+              <option value="wali">Wali Murid</option>
+              <option value="ustadz">Ustadz/Ustadzah</option>
+              <option value="admin">Admin</option>
+            </select>
+          </label>
+          <label class="full" id="studentNameField">
+            Nama Santri Terkait
+            <input name="studentName" placeholder="Isi jika akun ini untuk santri/wali" />
+          </label>
+          <p class="form-message full" id="registerMessage"></p>
+          <div class="form-actions">
+            <a class="ghost-btn link-button" href="./index.html">Kembali</a>
+            <button class="primary-btn" type="submit">Simpan Akun</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./cloud.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./register.js"></script>
+  </body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ustadz/Ustadzah TPQ - Setoran Hafalan</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="simple-shell">
+      <header class="simple-topbar">
+        <div class="brand">
+          <span class="brand-mark">A</span>
+          <div>
+            <strong>Ustadz/Ustadzah TPQ</strong>
+            <small>Setoran dan presensi hafalan</small>
+          </div>
+        </div>
+        <nav class="admin-nav" aria-label="Akses halaman">
+          <a class="active" href="./ustadz.html">Ustadz/Ustadzah</a>
+          <button class="nav-button" id="logoutBtn" type="button">Logout</button>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Jumat, 01 Mei 2026</p>
+          <h1>Setoran Hafalan</h1>
+          <p>Masukkan akun santri dulu, lalu catat setoran dan pantau presensi hafalan santri tersebut.</p>
+        </div>
+        <button class="primary-btn" id="openModal" type="button">
+          <span>+</span>
+          Tambah Setoran
+        </button>
+      </section>
+
+      <section class="panel student-access-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Akses Santri</p>
+            <h2>Login Akun Santri</h2>
+          </div>
+        </div>
+        <form id="studentAccessForm">
+          <label>
+            Username Santri
+            <input name="username" autocomplete="username" placeholder="Username akun santri" required />
+          </label>
+          <label>
+            Password Santri
+            <input name="password" type="password" autocomplete="current-password" placeholder="Password akun santri" required />
+          </label>
+          <p class="form-message full" id="studentAccessMessage"></p>
+          <div class="form-actions">
+            <button class="primary-btn" type="submit">Buka Data Santri</button>
+          </div>
+        </form>
+        <div class="active-student-box" id="activeStudentBox" hidden></div>
+      </section>
+
+      <section class="stats-grid compact-stats" aria-label="Ringkasan hafalan">
+        <article class="stat-card">
+          <span class="stat-icon">S</span>
+          <p>Total Setoran</p>
+          <strong id="statTotal">0</strong>
+          <small id="statStatus">Memuat data setoran</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">N</span>
+          <p>Rata-rata Nilai</p>
+          <strong id="statAverage">0%</strong>
+          <small id="statAverageNote">Berdasarkan data tampil</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">P</span>
+          <p>Presensi Bulan</p>
+          <strong id="statWa">0</strong>
+          <small id="statWaNote">Hari aktif</small>
+        </article>
+      </section>
+
+      <section class="toolbar-panel">
+        <label class="search">
+          <span>Cari setoran</span>
+          <input id="searchInput" type="search" placeholder="Nama santri, surah, penyimak" />
+        </label>
+        <div class="segmented">
+          <button class="selected" type="button" data-filter="today">Hari ini</button>
+          <button type="button" data-filter="week">Pekan</button>
+          <button type="button" data-filter="month">Bulan</button>
+        </div>
+      </section>
+
+      <section class="simple-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Data utama</p>
+              <h2>Daftar Santri</h2>
+            </div>
+            <button class="ghost-btn" id="downloadReport" type="button">Unduh PDF</button>
+          </div>
+          <div class="table-wrap" id="setoran">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nama Santri</th>
+                </tr>
+              </thead>
+              <tbody id="depositRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside class="panel side-summary">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Berikutnya</p>
+              <h2>Saran Hafalan</h2>
+            </div>
+          </div>
+          <div class="next-list" id="nextList"></div>
+          <div class="student-percent-box">
+            <div class="panel-header compact">
+              <div>
+                <p class="eyebrow">Persentase</p>
+                <h2>Progres Santri</h2>
+              </div>
+            </div>
+            <div class="student-percent-list" id="studentPercentList"></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="admin-data-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Santri aktif</p>
+              <h2>Detail Akun Santri</h2>
+            </div>
+          </div>
+          <div class="account-list" id="accountList"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Santri</p>
+              <h2>Data User Santri</h2>
+            </div>
+          </div>
+          <div class="account-list" id="studentUserList"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="modalBackdrop" hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Input cepat</p>
+            <h2 id="modalTitle">Tambah Setoran</h2>
+          </div>
+          <button class="icon-btn" id="closeModal" type="button" aria-label="Tutup modal">x</button>
+        </div>
+
+        <form id="depositForm">
+          <label>
+            Nama Santri
+            <select name="student" id="studentSelect" required></select>
+          </label>
+          <label>
+            Penyimak
+            <input name="listener" placeholder="Tulis nama penyimak" required />
+          </label>
+          <label>
+            Materi
+            <select name="surah" required>
+              <option>QS. Al-Mulk</option>
+              <option>QS. Al-Qalam</option>
+              <option>QS. Al-Haqqah</option>
+              <option>QS. Al-Kahfi</option>
+            </select>
+          </label>
+          <label>
+            Tanggal Setoran
+            <input name="date" type="date" value="2026-05-01" required />
+          </label>
+          <div class="field-row">
+            <label>
+              Ayat Awal
+              <input name="from" type="number" min="1" value="1" required />
+            </label>
+            <label>
+              Ayat Akhir
+              <input name="to" type="number" min="1" value="10" required />
+            </label>
+          </div>
+          <div class="field-row">
+            <label>
+              Jam Mulai
+              <input name="start" type="time" value="16:15" required />
+            </label>
+            <label>
+              Jam Selesai
+              <input name="end" type="time" value="16:30" required />
+            </label>
+          </div>
+          <label>
+            Nilai
+            <select name="grade">
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+              <option>D</option>
+            </select>
+          </label>
+          <label>
+            Status
+            <select name="status">
+              <option>Lancar</option>
+              <option>Cukup</option>
+              <option>Mengulang</option>
+            </select>
+          </label>
+          <label class="full">
+            Catatan Tajwid
+            <textarea name="note" rows="3">Perbaiki makhraj huruf Kha dan tahan mad dengan stabil.</textarea>
+          </label>
+          <div class="form-actions">
+            <button class="ghost-btn" id="sendWa" type="button">Preview WA</button>
+            <button class="primary-btn" id="saveDepositBtn" type="submit">Simpan Setoran</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./cloud.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./ustadz.js"></script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin TPQ - Kontrol Akun</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="simple-shell">
+      <header class="simple-topbar">
+        <div class="brand">
+          <span class="brand-mark">A</span>
+          <div>
+            <strong>Admin TPQ</strong>
+            <small>Kontrol akun sistem</small>
+          </div>
+        </div>
+        <nav class="admin-nav" aria-label="Akses halaman">
+          <a class="active" href="./index.html">Admin</a>
+          <a href="./register.html">Register</a>
+          <button class="nav-button" id="logoutBtn" type="button">Logout</button>
+        </nav>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">Panel Admin</p>
+          <h1>Kontrol Akun</h1>
+          <p>Admin dipakai untuk membuat dan memantau akun admin, ustadz/ustadzah, wali murid, dan santri.</p>
+        </div>
+        <a class="primary-btn link-button" href="./register.html">
+          <span>+</span>
+          Tambah Akun
+        </a>
+      </section>
+
+      <section class="stats-grid compact-stats" aria-label="Ringkasan akun">
+        <article class="stat-card">
+          <span class="stat-icon">A</span>
+          <p>Total Akun</p>
+          <strong id="statUsers">0</strong>
+          <small>Semua role</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">S</span>
+          <p>Santri</p>
+          <strong id="statStudents">0</strong>
+          <small>Akun santri</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon">W</span>
+          <p>Wali</p>
+          <strong id="statParents">0</strong>
+          <small>Akun wali murid</small>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">User sistem</p>
+            <h2>Data Akun</h2>
+          </div>
+          <label class="search account-search">
+            <span>Cari akun</span>
+            <input id="accountSearch" type="search" placeholder="Nama, username, role" />
+          </label>
+        </div>
+        <div class="account-list" id="accountList"></div>
+      </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./cloud.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

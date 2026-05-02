@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wali Murid - Hafalan Santri</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="parent-page">
+      <header class="simple-topbar">
+        <div class="brand">
+          <span class="brand-mark">W</span>
+          <div>
+            <strong>Wali Murid</strong>
+            <small>Perkembangan hafalan ananda</small>
+          </div>
+        </div>
+        <button class="parent-only-badge" id="logoutBtn" type="button">Logout</button>
+      </header>
+
+      <section class="panel child-auth-panel" id="childAuthPanel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Akses Anak</p>
+            <h1>Akun Anak</h1>
+          </div>
+          <button class="ghost-btn" id="openChildAuth" type="button">Login Akun Anak</button>
+        </div>
+        <div class="child-list" id="childList"></div>
+        <form id="childAuthForm" hidden>
+          <label>
+            Username Santri
+            <input name="username" autocomplete="username" placeholder="Username akun anak" required />
+          </label>
+          <label>
+            Password Santri
+            <input name="password" type="password" autocomplete="current-password" placeholder="Password akun anak" required />
+          </label>
+          <p class="form-message full" id="childAuthMessage"></p>
+          <div class="form-actions">
+            <button class="ghost-btn" id="cancelChildAuth" type="button">Batal</button>
+            <button class="primary-btn" type="submit">Hubungkan Anak</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="parent-main-card" id="parentMainCard">
+        <div class="parent-hero clean-parent-hero">
+          <span class="parent-avatar" id="parentInitials">-</span>
+          <div>
+            <p>Santri</p>
+            <strong id="parentName">Belum ada data</strong>
+            <small id="parentSubtitle">Setoran dari admin akan muncul di sini</small>
+          </div>
+        </div>
+
+        <div class="parent-summary-grid">
+          <article>
+            <span>Total Setoran</span>
+            <strong id="parentTotal">0</strong>
+            <div class="mini-progress"><span id="parentProgressBar" style="width: 0%"></span></div>
+          </article>
+          <article>
+            <span>Setoran Terakhir</span>
+            <strong id="parentLastMaterial">Belum ada</strong>
+            <p id="parentLastTime">Menunggu input admin</p>
+          </article>
+          <article>
+            <span>Status</span>
+            <strong id="parentLastStatus">-</strong>
+            <p id="parentLastListener">-</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel parent-history-panel" id="parentHistoryPanel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Riwayat</p>
+            <h1>Setoran Ananda</h1>
+          </div>
+        </div>
+        <div class="parent-feed parent-feed-large" id="parentHistory"></div>
+      </section>
+    </main>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./cloud.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./wali.js"></script>
+  </body>
+</html>
