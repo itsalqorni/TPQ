@@ -3,7 +3,7 @@ const AUTH_SESSION_KEY = "tpq_auth_session";
 
 const DEFAULT_ADMIN = {
   id: "admin-1",
-  name: "Ustadz Hanafi",
+  name: "Admin Akun",
   username: "admintpq",
   password: "admintpq123",
   role: "admin",
@@ -29,6 +29,7 @@ async function loadUsersAsync() {
 function normalizeUsers(users) {
   const normalized = users.map((user) => ({
     ...user,
+    name: user.username === DEFAULT_ADMIN.username ? DEFAULT_ADMIN.name : user.name,
     id: user.id || `user-${Date.now()}`
   }));
 
